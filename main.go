@@ -9,12 +9,20 @@ import (
 )
 
 const (
-	duplicateVowel bool = true
-	removeVowel bool = false
+	duplicateVowelCase bool = true
+	removeVowelCase bool = false
 )
 
 func randBool() bool {
 	return rand.Intn(2) == 0
+}
+
+func duplicateVowel(word []byte, i int) []byte {
+	return append(word[:i+1], word[i:]...)
+}
+
+func removeVowel(word []byte, i int) []byte {
+	return append(word[:i], word[i+1:]...)
 }
 
 func main() {
@@ -35,10 +43,10 @@ func main() {
 
 			if vI >= 0 {
 				switch randBool() {
-				case duplicateVowel:
-					word = append(word[:vI+1], word[vI:]...)
-				case removeVowel:
-					word = append(word[:vI], word[vI+1:]...)
+				case duplicateVowelCase:
+					word = duplicateVowel(word, vI)
+				case removeVowelCase:
+					word = removeVowel(word, vI)
 				}
 			}
 		}
