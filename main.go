@@ -5,6 +5,7 @@ import (
 	"time"
 	"bufio"
 	"os"
+	"fmt"
 )
 
 const (
@@ -19,4 +20,28 @@ func randBool() bool {
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	s := bufio.NewScanner(os.Stdin)
+	for s.Scan() {
+		word := []byte(s.Text())
+		if randBool() {
+			var vI int = -1
+			for i, char := range word {
+				switch char {
+				case 'a', 'i', 'u', 'e', 'o', 'A', 'I', 'U', 'E', 'O':
+					if randBool() {
+						vI = i
+					}
+				}
+			}
+
+			if vI >= 0 {
+				switch randBool() {
+				case duplicateVowel:
+					word = append(word[:vI+1], word[vI:]...)
+				case removeVowel:
+					word = append(word[:vI], word[vI+1:]...)
+				}
+			}
+		}
+		fmt.Println(string(word))
+	}
 }
